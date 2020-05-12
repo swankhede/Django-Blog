@@ -1,0 +1,67 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Document</title>
+</head>
+<nav class="navbar navbar-expand-sm bg-dark text-capitalize text-white justify-content-md-center ">
+    <ul class="navbar-nav">
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">DBlog</a>
+        </li>
+      
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">home</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">about</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">contact</a>
+        </li>
+     
+ </ul>
+</nav>
+<br>
+<br><br>
+<h1>{{dic}}</h1>
+<body>
+
+    <div class="container justify-content-md-center border-dark col-sm-5">
+        {% for i in blogs %}
+        <div class="card ">
+            {% csrf_token %}
+            <div class="card-item">
+                
+                <h5>{{i.title}}</h5>
+                <p>{{i.content}}</p>
+                <small>{{i.author}}</small>
+              
+               
+            
+
+            </div>
+
+
+
+
+
+        </div>
+     
+        <br>
+       
+     
+    </div>
+
+
+</body>
+
+  
+
+
+
+</html>

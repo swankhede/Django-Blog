@@ -1,0 +1,61 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Document</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-sm bg-dark text-capitalize text-white ">
+    <ul class="navbar-nav">
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">DBlog</a>
+        </li>
+      
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">home</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">about</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">contact</a>
+        </li>
+ </ul>
+</nav>
+
+</body>
+
+  
+<div class="container justify-content-md-center col-sm-3 mt-md-5">
+    <h1 class="display-5 text-dark">Login Here</h1>
+    <div class=alert-danger>
+        {{error}}
+    </div>
+    <br><br>
+    <form action="" method="POST">
+        {% csrf_token %} 
+        
+        <div class="form-group">
+            <input type="text" class="form-control" id="exampleInputText" name="first name" placeholder="first name">
+            <input type="text" class="form-control" id="exampleInputText" name="last name" placeholder="last name">
+            <input type="text" class="form-control" id="exampleInputText" name="username" placeholder="username">
+            <input type="password" class="form-control" id="exampleInputpassword" name="password" placeholder="password">
+          
+            <input type="password" class="form-control" id="exampleInputpassword" name="password2" placeholder="repeat password">
+           
+            <input type="submit" class="btn bg-primary text-white col-sm-3"  name="sbtn" value="Sign Up" >
+            <a href="{% url 'login' %}"><input type="button" class="btn bg-light text-black col-sm-3 border-dark"   value="Login" >
+                </a>
+        </div>
+
+
+
+    </form>
+</div>
+
+
+</html>

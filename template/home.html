@@ -1,0 +1,119 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <title>Document</title>
+</head>
+
+<style>
+.text {
+   overflow: hidden;
+   text-overflow: hidden;
+   display: -webkit-box;
+   -webkit-line-clamp: 2; /* number of lines to show */
+   -webkit-box-orient: vertical;
+}
+
+</style>
+
+<nav class="navbar navbar-expand-sm bg-dark text-capitalize  text-white justify-content-md-center" >
+    <ul class="navbar-nav ">
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">DBlog</a>
+        </li>
+      
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">home</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="{% url 'post_blog' u %}">Post</a>
+        </li>
+      
+        <li class="nav-items ">
+            <a class="nav-link text-light" href="{% url 'profile' u %}">{{u}}</a>
+        </li>
+        <li class="nav-items ">
+            <a href="{% url 'logout' %}" class="nav-link text-light" >logout</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">about</a>
+        </li>
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">contact</a>
+        </li>
+        
+          
+      
+        
+     
+ </ul>
+ 
+      
+</nav>
+
+
+<br>
+<br>
+
+<body>
+   
+<div class="container float-right col-sm-3">
+
+<div class="jumbotron bg-dark"></div>
+
+
+</div>
+
+<div class="container justify-content-md-center border-dark col-md-4  ">
+
+        {% for i in blogs %}
+        <div class="card ">
+            {% csrf_token %}
+            <a href="{% url 'view_blog' i.title u %}" style="text-decoration: none;color:black">
+                <div class="card-item">
+                
+                <h5>{{i.title}}</h5>
+                {% if i.pic %}
+               <img src="{{i.pic.url}}" class="img-fluid" width="100%">
+               {% endif %}
+                <div class="text">
+                <p>{{i.content}}</p>
+            </div>  
+                <a href="{% url 'user_accounts'  i.author u %}"><small>{{i.author}}</small></a>
+       
+               
+                <div style="float: right;color:#808080">
+                <small>{{i.time}}</small>
+            </div>
+                
+
+               
+            
+
+            </div>
+
+
+
+
+
+        </div>
+
+        <br>
+        {% endfor %}
+     
+    </div>
+    
+
+ 
+</body>
+
+  
+
+
+
+</html>
