@@ -6,11 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <title>Document</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> 
+    <title>Profile Update</title>
 </head>
 <body>
 
-<nav class="navbar navbar-expand-sm bg-dark text-capitalize text-white ">
+<nav class="navbar navbar-expand-sm bg-dark text-capitalize text-white justify-content-md-center">
     <ul class="navbar-nav">
       
         <li class="nav-items">
@@ -19,20 +22,49 @@
         </li>
         </li>
         <li class="nav-items">
-            <a class="nav-link text-light" href="#">logout</a>
+            <a href="{% url 'logout' %}" class="nav-link text-light" >logout</a>
         </li>
         <li class="nav-items">
-            <a class="nav-link text-light" href="#">contact</a>
         </li>
  </ul>
 </nav>
 
+<div class="container float-left col-sm-3 ml-md-5">
+
+    <div class="jumbotron ml-md-5 bg-light">
+       
+            {% csrf_token %}
+            {% for i in p %}
+            <img src="/media{{i.pic.url}}" class="img-fluid">
+            {% endfor %}
+         <br>
+         <br>
+        
+        {% for i in u %}
+        <label class="text-dark">{{i.first_name}}</label>
+        <label class="text-dark">{{i.last_name}}</label>
+        <br>
+        <label class="text-dark">{{i.username}}</label>
+            {% endfor %}
+          
+        <br>
+       
+      
+    </div>
+    
+    
+    </div> 
+    
+    
+    </div>
 <h1>{{u.first_name}}</h1>
+
 <div class="container justify-content-md-center col-sm-3 mt-md-5">
     <div class=alert-danger>
         {{error}}
     </div>
-    
+    <h1>Details</h1>
+    <hr>
     <form action="" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <div class=alert-success>
@@ -41,16 +73,24 @@
         
         <div class="form-group">
             {% for i in u %}
+            <label for="first_name">First Name</label>
+            <br>
             <input type="text" class="form-control" id="exampleInputText" name="first_name" value="{{i.first_name}}">
+            <br>
+            <label for="last_name">Last Name</label>
+            <br>
             <input type="text" class="form-control" id="exampleInputText" name="last_name" value="{{i.last_name}}" >
+            <br>
+            <label for="username">Username</label>
+            <br>
             <input type="text" class="form-control" id="exampleInputText" name="username" value="{{i.username}}">
          
             <br>
             
             <input type="file" style="width:100%;border:none" class=" " id="exampleInputFile" name="pic" value="{{i.pic.url}}"><br>
             <br>
-            <input type="submit" class="btn bg-primary text-white col-sm-3"  name="sbtn1" value="update" >
-            <a href="{% url 'signup' %}"><input type="button" class="btn bg-light text-black col-sm-3 border-dark"   value="sign up" ></a>
+            <input type="submit" class="btn bg-primary text-white col-sm-5 "  name="sbtn1" value="update" >
+         
 {% endfor %}
         </div>
 
