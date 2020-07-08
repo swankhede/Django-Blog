@@ -222,25 +222,8 @@ def edit_blog(req,t,u):
             else:
                 return render(req,'edit.html',{'u':u,'b':post})
               
-            """p=blogpost.objects.all().filter(title=t,author=u)
+         
                 
-                p1=blogpost.objects.only('pic').filter(title=t,author=u)
-                for i in p1:
-
-                    print('p',i.pic)
-                obj=blogpost.objects.filter(title=t,author=u)
-                p.delete()
-                obj.update(title=req.POST['title'],content=req.POST['content'],pic=req.FILES)
-                form2.save(commit=True)"""
-                
-                    
-                
-                
-            
-
-            
-            
-
         return render(req,'edit.html',{'u':u,'b':post})
     else:
         return HttpResponse("<h1>User Not Found</h1>")
@@ -286,11 +269,16 @@ def edit_accounts(req,u):
                     uname= req.POST['username']
                 
                     #print("done")
-                    return redirect(reverse('profile',kwargs={'u':uname}))
+                    return redirect(reverse('profile',kwargs={'u':uname,}))
                 else:
                     u.update(first_name=req.POST['first_name'],last_name=req.POST['last_name'],username=req.POST['username'])
                     uname = req.POST['username']
-                    pro_pic.update(username=req.POST['username'])
+                    profile1=profile.objects.filter(username=req.user)
+                    blogs.update(author=req.POST['username'])
+                    pic=req.FILES.get('pic')
+                    for p in profile1:
+                        p.pic=pic
+                        p.save()
                     print(" here...")
                     print(req.FILES['pic'])
                     profile.objects.filter(username=req.user).update(pic=req.FILES['pic'])
