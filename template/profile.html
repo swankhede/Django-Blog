@@ -32,9 +32,7 @@
         <li class="nav-items">
             <a class="nav-link text-light" href="#">about</a>
         </li>
-        <li class="nav-items">
-            <a class="nav-link text-light" href="#">contact</a>
-        </li>
+       
      
  </ul>
 </nav>
@@ -47,24 +45,24 @@
     
           
     
-    <div class="container float-left col-sm-3 ml-md-5">
+    <div class="container float-left col-sm-2 bg-light ml-md-5">
 
-        <div class="jumbotron ml-md-5 bg-light">
+       
             <form action="" method="post" enctype="multipart/form-data" >
                 {% csrf_token %}
                 {% for i in p %}
-                <img src="/media{{i.pic.url}}" class="img-thumbnail rounded"  >
+                <img src="/media{{i.pic.url}}" class="img-fluid"  >
                 {% endfor %}
              <br>
              <br>
-            <h5 class="font-weight-bold ">{{fn}} {{ln}}</h5>
-            <label style="color: #666666;">{{u}}</label>
+            <p class="font-weight-bold ">{{fn|title}} {{ln|title}}</p>
+            <label style="color: #666666;">@{{u}}</label>
             <br>
 
             <br>
             <a href="{% url 'accounts' u  %}" ><input type="button" value="Edit Profile" name="edit" class="btn btn-primary col-md-10"></a>
             </form>
-        </div>
+        
         
         
         </div> 
