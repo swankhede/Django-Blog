@@ -32,9 +32,7 @@
         <li class="nav-items">
             <a class="nav-link text-light" href="#">about</a>
         </li>
-        <li class="nav-items">
-            <a class="nav-link text-light" href="#">contact</a>
-        </li>
+       
      
  </ul>
 </nav>
@@ -44,7 +42,7 @@
 
 <body>
     
-        <div class="container ">
+        <div class="container col-md-7">
             <div class=alert-danger>
                 {{error}}
             </div>
@@ -55,20 +53,18 @@
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
                 
-                <div class="card ">
-                    <div class="card-item">
+               
                     {% for i in b %}
                     {% if i.pic %}
-                    <img src="{{i.pic.url}}" class="img-fluid" height="500" width="500">
-                   <input type="file" style="width:100%;border:none" class=" " id="exampleInputFile" name="pic" value="{{i.pic.url}}">
-                   {% else %}
-                   <input type="file" style="width:100%;border:none;" class=" " id="exampleInputFile" name="pic" >
+                    <img src="{{i.pic.url}}" class="img-fluid" width="100%">
+                 
+                   
                    {% endif%}
                     
-                    <input type="text" style="width:100%;border:none;font-size: 80px" class=" " id="exampleInputText" name="title" placeholder="Title" value="{{i.title}}">
+                    <input type="text" style="width:100%;border:none;font-size: 80px ;outline:none" class=" " id="exampleInputText" name="title" placeholder="Title" value="{{i.title}}">
                     <br>
                    
-                    <textarea class=""  style="width:100%;border:none solid;font-size: 30px;" id="exampleInputTextArea" name="content" maxlength="1000"  placeholder="Type Here.." rows="10"
+                    <textarea class=""  style="width:100%;border:none;font-size: 30px;outline:none" id="exampleInputTextArea" name="content" maxlength="1000"  placeholder="Type Here.." rows="10"
                     >{{i.content}}</textarea>
                    <br>
                    
@@ -76,15 +72,19 @@
                
              
                    <br>
-                    <input type="submit" class="btn btn-primary float-left "  name="Upost" value="POST" >
+                   <br>
+                   <input type="file" style="width:100%;border:none;outline:none" class=" " id="exampleInputFile" name="pic">
+                   <br>
+                   <br> 
+                   <input type="submit" class="btn btn-primary col-md-12 "  name="Upost" value="POST" >
                    
-                </div>
+                
         
                 {% endfor %}
         
             </form>
     
-        </div>
+        
         </div>
       
 
