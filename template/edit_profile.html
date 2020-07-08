@@ -23,9 +23,7 @@
         </li>
         <li class="nav-items">
             <a href="{% url 'logout' %}" class="nav-link text-light" >logout</a>
-        </li>
-        <li class="nav-items">
-        </li>
+        
  </ul>
 </nav>
 
@@ -44,7 +42,7 @@
         <label class="text-dark">{{i.first_name}}</label>
         <label class="text-dark">{{i.last_name}}</label>
         <br>
-        <label class="text-dark">{{i.username}}</label>
+        <label class="text-dark">@{{i.username}}</label>
             {% endfor %}
           
         <br>
@@ -87,7 +85,7 @@
          
             <br>
             
-            <input type="file" style="width:100%;border:none" class=" " id="exampleInputFile" name="pic" value="{{i.pic.url}}"><br>
+            <input type="file" style="width:100%;border:none;outline:none" class=" " id="exampleInputFile" name="pic" value="{{i.pic.url}}"><br>
             <br>
             <input type="submit" class="btn bg-primary text-white col-sm-5 "  name="sbtn1" value="update" >
          
