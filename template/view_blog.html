@@ -34,7 +34,10 @@
         <li class="nav-items">
             <a class="nav-link text-light" href="#">about</a>
         </li>
-        
+        <li class="nav-items">
+            <a class="nav-link text-light" href="#">contact</a>
+        </li>
+     
  </ul>
 </nav>
 
@@ -43,32 +46,31 @@
 
 <body>
    
+<div class="container float-right col-sm-3">
+
+<div class="jumbotron bg-dark"></div>
 
 
-<div class="container justify-content-md-center border-0 col-sm-5 ">
+</div>
+
+<div class="container justify-content-md-center border-0 col-sm-6 ">
         {% for i in b %}
         
-  
+        <div class="card ">
             {% csrf_token %}
             
             <div class="card-item">
                 <h1>{{i.title}}</h1>
                 
-                <div style="background-color:whitesmoke; width: 35%; border-radius: 0px 10px 10px 0px ;margin-left: 1%;">
-                <div style="color:#808080">
-                    <small>Posted on {{i.time | date}}</small>
-                   
-                </div>
-            </div>
-            <br>
-               
                 {% if i.pic %}
                <img src="{{i.pic.url}}" class="img-fluid" width="100%" >
                {% endif %}
                 
                 <p>{{i.content}}</p>
                 <small>{{i.author}}</small>
-                
+                <div style="float: right;color:#808080">
+                <small>{{i.time}}</small>
+            </div>
                
             
 
@@ -78,7 +80,7 @@
 
 
 
-        
+        </div>
 
         <br>
         {% endfor %}
