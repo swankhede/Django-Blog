@@ -15,8 +15,10 @@ class blogpost(models.Model):
     content = models.CharField(max_length=1000)
     author = models.CharField(max_length=256)
     pic = models.ImageField(upload_to='media',blank=True)
+    tags = models.CharField(max_length=256,blank=True)
+
     time =models.DateTimeField(auto_now=True, auto_now_add=False)
-    
+
     
     def __str__(self):
         return self.title

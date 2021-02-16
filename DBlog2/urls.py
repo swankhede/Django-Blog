@@ -25,15 +25,15 @@ urlpatterns = [
      path('login',views.login_view,name='login'),
       path('signup',views.signup,name='signup'),
        path('logout',views.logout_view,name='logout'),
-       path('post_blog/<u>',views.post_blog,name='post_blog'),
-       path('home/<u>',views.home,name='home'),
-       path('home/view_blog/<a>/<u>',views.view_blog,name='view_blog'),
-       path('profile/<u>',views.profile_view,name='profile'),
-        path('profile/delete/<t>/<u>',views.delete_blog,name='delete'),
+       path('post_blog/',views.post_blog,name='post_blog'),
+       path('home/',views.home,name='home'),
+       path('home/view_blog/<title>/<author>',views.view_blog,name='view_blog'),
+       path('profile/',views.profile_view,name='profile'),
+        path('profile/delete/<t>/',views.delete_blog,name='delete'),
       
-        path('profile/edit/<t>/<u>',views.edit_blog,name='edit'),
-         path('accounts/<u>',views.edit_accounts,name='accounts'),
-         path('user_accounts/<a>/<u>',views.accounts,name='user_accounts')
+        path('profile/edit/<pk>/',views.edit_blog,name='edit'),
+         path('accounts/',views.edit_accounts,name='accounts'),
+         path('user_accounts/<author>/',views.accounts,name='user_accounts')
       
 
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,313 +12,306 @@ import json
 import datetime
 
 
-
-# Create your views here.
-
-def index(req):
-   
-    
+def index(request):
     #print(post)
-    return render(req,'index.html')
-def login_view(req):
-    if req.method =='POST':
-        username = req.POST['username']
-        #print(username)
-        #print(User.objects.filter().exists())
+    pr = profile.objects.filter(username=request.user)
+    posts = blogpost.objects.all().order_by("time").reverse()
+    return render(request,'index.html',{'u':'guest','blogs':posts,'pr':pr})
+
+def login_view(request):
+    if request.method =='POST':
+        username = request.POST['username']
+
         name = str(username)
-        password = req.POST['password']
-        #auth = False
-        #print('password:',password)
+        password = request.POST['password']
+
         user = authenticate(username=username,password=password)
-        #pwd = authenticate()
-        #print(user)
+
 
         if user is not None :
             print(user.is_authenticated)
-            login(req,user)
-            
-            return redirect(reverse('home',kwargs={'u':user}))
+            login(request,user)
+
+            return redirect(reverse('home'))
         else:
-            return render(req,'login.html',{'error':'user and password does not match'})
-       
+            return render(request,'login.html',{'error':'user and password does not match'})
 
 
-    return render(req,'login.html')
+
+    return render(request,'login.html')
 
 
-def signup(req):
-    if req.method =='POST':
-        first_name = req.POST['first name']
-        last_name = req.POST['last name']
-        username = req.POST['username']
-        password = req.POST['password']
-        
-        if req.POST['password'] == req.POST['password2']:
+def signup(request):
+    if request.method =='POST':
+        first_name = request.POST['first name']
+        last_name = request.POST['last name']
+        username = request.POST['username']
+        password = request.POST['password']
+
+        if request.POST['password'] == request.POST['password2'] :
             if first_name !=" " and last_name !=" " and username !=" " and password!=" ":
                 if User.objects.filter(username=username).exists():
-                    return render(req,'signup.html',{'error':"user already exists"})
+                    return render(request,'signup.html',{'error':"user already exists"})
                 else:
-                    user = User.objects.create_user(username = username ,password=password,first_name=first_name,last_name=last_name)
-                    #pro_pic = profile.objects.create(username=user.username)
+                    user = User.objects.create_user(username = username ,
+                            password=password,first_name=first_name,
+                            last_name=last_name)
+
                     user.save()
                     pr = profile(username=username)
                     pr.save()
                     return redirect(reverse(login_view))
             else:
-                #print(form1)
+
                 print("enter valid details")
-                #print(user.errors)
-                return render(req,'signup.html',{'error':"pls feel all details"}) 
+
+                return render(request,'signup.html',{'error':"pls feel all details"})
         else:
-            return render(req,'signup.html',{'error':"password does not match"}) 
+            return render(request,'signup.html',{'error':"password does not match"})
 
-   
-            
-    
 
-    return render(req,'signup.html')
+
+
+
+    return render(request,'signup.html')
 
 @login_required
-def logout_view(req):
-    logout(req)
+def logout_view(request):
+    logout(request)
     return redirect(reverse('index'))
+
 @login_required
-
-def home(req,u):
-    if User.objects.filter(username=u).exists():
-        print(User.is_authenticated)
-        if User.is_authenticated:
-            pr = profile.objects.filter(username=u)    
-
-            print(u)
+def home(request):
+    if request.user.is_authenticated:
+            profile_obj = profile.objects.filter(username=request.user)
             posts = blogpost.objects.all().order_by("time").reverse()
-            
-            return render(req,'home.html',{'u':u,'blogs':posts,'pr':pr})
-        else:
-           return HttpResponse("<h1>User Not Found</h1>")
-    else:
-        return HttpResponse("<h1>User Not Found</h1>")
-  
-  
 
-   
-            
-    
-    
-   
+            return render(request,'home.html',context={'profile':profile_obj,'posts':posts})
+    else:
+           return HttpResponse("<h1>User Not Found</h1>")
+
+
+
+
+
+
+
+
+
 @login_required
-def post_blog(req,u):
-    if User.objects.filter(username=u).exists():
-        if req.method == 'POST':
-            #print(req.POST['title'])
-            #print(req.POST['content'])
-            #print(req.FILES['pic'])
-            
-            form2 = saveblog(req.POST,req.FILES)
-            
-            
-            #print("files: ",req.FILES)
+def post_blog(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+
+            form2 = saveblog(request.POST,request.FILES)
+
+
+
             if form2.is_valid():
                 inst = form2.save(commit=False)
-                inst.author = req.user
+                inst.author = request.user
+
                 inst.save()
-                return redirect(reverse('home',kwargs={'u':u}))
+                return redirect(reverse('home'))
             else:
-                return render(req,'post-blog.html',{'error':form2.errors,'u':u})
+                return render(request,'post-blog.html',{'error':form2.errors})
     else:
         return HttpResponse("<h1>User Not Found</h1>")
-  
-  
-        
-    
-    
-    return render(req,'post-blog.html',{'u':u})
-@login_required 
-def view_blog(req,a,u):
-    if User.objects.filter(username=u).exists():
-        
-        post=blogpost.objects.filter(title=a)
-        #print(post)
-        #print("post: ",post)
 
-        return render(req,'view_blog.html',{'b':post,'u':u})
-    else:
-        return HttpResponse("<h1>User Not Found</h1>")
-  
-  
-@login_required 
-def profile_view(req,u,msg=None):
-    if User.objects.filter(username=u).exists():
-        user = User.objects.filter(username=u)
-        user = user.values('first_name','last_name')
-        
-        for i in user:
-            first_name =i['first_name']
-            last_name = i['last_name']
-        
-        post=blogpost.objects.filter(author=u).order_by("time").reverse()
-        pro_pic = profile.objects.filter(username=u)
 
-        
 
-        return render(req,'profile.html',{'b':post,'u':u,'fn':first_name,'ln':last_name,'p':pro_pic})
-    else:
-        return HttpResponse("<h1>User Not Found</h1>")
-  
-  
-       
+
+
+    return render(request,'post-blog.html')
 @login_required
-def delete_blog(req,t,u):
+def view_blog(request,title,author):
+    if request.user.is_authenticated:
+
+        post=blogpost.objects.get(title=title,author=author)
+
+        return render(request,'view_blog.html',{'blog':post})
+    else:
+        return HttpResponse("<h1>User Not Found</h1>")
+
+
+@login_required
+def profile_view(request,msg=None):
+    if request.user.is_authenticated:
+        user = User.objects.filter(username=request.user)
+
+        post=blogpost.objects.filter(author=request.user).order_by("time").reverse()
+        profile_obj = profile.objects.get(username=request.user)
+
+        return render(request,'profile.html',{'posts':post,'profile':profile_obj})
+    else:
+        return HttpResponse("<h1>User Not Found</h1>")
+
+
+
+@login_required
+def delete_blog(request,t,u):
     if User.objects.filter(username=u).exists():
         post=blogpost.objects.filter(title=t)
         post=blogpost.objects.filter(author=u)
-        
-        
-        
-    
-        #print("post1:",post)
+
+
+
+
+
         blogpost.objects.filter(title=t).delete()
         return redirect(reverse('profile',kwargs={'u':u}))
     else:
         return HttpResponse("<h1>User Not Found</h1>")
-  
-  
+
+
+
+def edit_blog(request,pk):
+
+    if request.user.is_authenticated:
+        post=blogpost.objects.get(pk=pk)
+
+        title=request.POST.get('title')
+        content= request.POST.get('content')
+
+        if request.method=='POST':
+            post.title=title
+            post.content=content
+            post.author=post.author
+            post.time=post.time
+
+
+            if request.FILES.get('pic'):
+                post.pic=request.FILES.get('pic')
+
+            post.save()
+            print("post updated")
+    
+        if request.GET.get('action'):
+            print('here..')
+            post.pic.delete()
+
+
+            return render(request,'edit.html',{'post':post,'msg':"post has been updated"})
+        return render(request,'edit.html',{'post':post})
+    else:
+        return HttpResponse("<h1>User Not Found</h1>")
+
+
+
+
 
 @login_required
-def edit_blog(req,t,u):
-    if User.objects.filter(username=u).exists():
-        post=blogpost.objects.filter(title=t)
-        #print(post)
-        #print(post.values('pic'))
+def editor_blog(request,pk):
+    if request.user.is_authenticated:
+        post=blogpost.objects.filter(pk=pk)
+
         p = post.values('pic')
         for i in p:
             image=i['pic']
-        #print(image)
 
-        if req.method=='POST':
-            form2 = updateblog(req.POST,req.FILES)
-           
-            
-            
+        if request.method=='POST':
+            form2 = updateblog(request.POST,request.FILES)
+
+
+
             print(form2)
             print(form2.is_valid())
             print(form2.errors)
             if form2.is_valid():
-                path = req.FILES.get('pic', False)
-                print("path:",path)
-             
-                
+                path = request.FILES.get('pic', False)
+
+
                 if path ==False:
-                    print("yess")
-                    blogpost.objects.filter(title=t).update(title=req.POST['title'],content=req.POST['content'],pic=image)
+
+                    blogpost.objects.filter(title=t).update(title=request.POST['title'],content=request.POST['content'],pic=image,tags=request.POST['tags'])
+
+
                 else:
-                    print("here..")
-                    #blogpost.objects.filter(title=t,author=req.user).update(title=req.POST['title'],content=req.POST['content'],pic=image)
+
                     post.delete()
-                    post_blog(req,u)                  
-                        
-                    
-                return render(req,'edit.html',{'u':u,'b':post,'msg':"post has been updated"})
+
+                    post_blog(request,u)
+
+
+                return render(request,'edit.html',{'u':u,'b':post,'msg':"post has been updated"})
             else:
-                return render(req,'edit.html',{'u':u,'b':post})
-              
-         
-                
-        return render(req,'edit.html',{'u':u,'b':post})
+                return render(request,'edit.html',{'u':u,'b':post})
+
+
+
+
+
+        return render(request,'edit.html',{'u':u,'b':post})
     else:
         return HttpResponse("<h1>User Not Found</h1>")
-  
-  
+
+
 
 
 
 @login_required
-def edit_accounts(req,u):
-    if User.objects.filter(username=u).exists() :
-        pro_pic = profile.objects.filter(username=u)
-        blogs  = blogpost.objects.all().filter(author=u)
+def edit_accounts(request):
+    if request.user.is_authenticated:
+     
+        profile_obj = profile.objects.get(username=request.user)
+        blogs  = blogpost.objects.filter(author=request.user)
+        user = User.objects.get(username=request.user)
+        print(profile_obj,user)
+        print(request.method)
+        print(request.POST.get('username'))
 
-        
-        #print("here..")
-        uname = u
-        #print(uname)
-        u=User.objects.all().filter(username=u)
-        
-        
-       
-        
-        
-        if req.method=="POST":
-            form = profileUpdate(req.POST,req.FILES ,instance=req.user)
-            p = profile.objects.all()
-            
-            #print(req.FILES)
-            #print(form)
-            if form.is_valid():
+
+        if request.method=="POST":
+            print("here....")
+   
+            User.objects.filter(username=request.user).update(
                 
-                path = req.FILES.get('pic', False)
-                print("path:",path)
-             
-                
-                if path ==False:
-                    
-                    #print("yess")
-                    u.update(first_name=req.POST['first_name'],last_name=req.POST['last_name'],username=req.POST['username'])
-                    pro_pic.update(username=req.POST['username'])
-                    blogs.update(author=req.POST['username'])
-                    uname= req.POST['username']
-                
-                    #print("done")
-                    return redirect(reverse('profile',kwargs={'u':uname,}))
-                else:
-                    u.update(first_name=req.POST['first_name'],last_name=req.POST['last_name'],username=req.POST['username'])
-                    uname = req.POST['username']
-                    profile1=profile.objects.filter(username=req.user)
-                    blogs.update(author=req.POST['username'])
-                    pic=req.FILES.get('pic')
-                    for p in profile1:
-                        p.pic=pic
-                        p.save()
-                    print(" here...")
-                    print(req.FILES['pic'])
-                    profile.objects.filter(username=req.user).update(pic=req.FILES['pic'])
-                    print("done")
-                    
-                   
-                    return redirect(reverse('profile',kwargs={'u':uname}))
-                    
-                    
-    
-        return render(req,'edit_profile.html',{'uname':uname,'u':u,'p':pro_pic})
+                username=request.POST.get('username'),
+                first_name=request.POST.get('first_name'),
+                last_name=request.POST.get('last_name'),
+
+            )
            
-    return HttpResponse("<h1>User Not Found</h1>")
+            blogs.author=request.POST.get('username')
+            profile_obj.username=request.POST.get('username')
+            profile_obj.save()
+            
+            for i in blogs:
+                print(i.author)
+                i.author=request.POST.get('username')
+                i.save()
+            
+      
+            if request.FILES:
+                profile_obj.pic=request.FILES.get('pic')
+                profile_obj.save()
+        
+            return render(request,'edit_profile.html',{'profile':profile_obj,'msg':'Profile Updated'})
+    
+    return render(request,'edit_profile.html',{'profile':profile_obj})
+            
+            
+
+
+        
+
+
 
 @login_required
-def accounts(req,a,u):
-    if User.objects.filter(username=a).exists():
-       
-        user = User.objects.filter(username=a)
-       
-        user = user.values('first_name','last_name')
-        for i in user:
-            first_name =i['first_name']
-            last_name = i['last_name']
-        
-        post=blogpost.objects.filter(author=a).order_by("time").reverse()
-        pro_pic = profile.objects.filter(username=a)
-        if a==u:
-              #return render(req,'profile.html',{'b':post,'u':u})
-            return redirect(reverse('profile',kwargs={'u':u}))
-        else:
-
-        
-
-            return render(req,'user_profile.html',{'b':post,'a':a,'u':u,'fn':first_name,'ln':last_name,'p':pro_pic})
+def accounts(request,author):
+    author_obj = User.objects.get(username=author)
+    post=blogpost.objects.filter(author=author).order_by("time").reverse()
+    profile_obj = profile.objects.get(username=author)
+    print(request.user)
+    print(author)
+    print(author==request.user)
+    if author==str(request.user):
+        return redirect(reverse('profile'))
     else:
-        return HttpResponse("<h1>User Not Found</h1>")
+        return render(request,'user_profile.html',{'posts':post,'profile':profile_obj})
 
 
 
 
 
-        
+

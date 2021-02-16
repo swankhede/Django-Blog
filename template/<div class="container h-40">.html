@@ -1,0 +1,41 @@
+<div class="container h-40">
+
+    <div class="row">
+      <div class="col-lg-6">
+        
+        <h1 class="text-light font-weight-bold" style="font-size: 60px;">WELCOME TO THE DJANGO BLOG</h1>
+  
+      </div>
+      <div class="col-lg-6">
+        <div class=alert-danger>
+            {{error}}
+        </div>
+    
+        
+        
+        <form action="" method="POST">
+            {% csrf_token %}
+             
+            <div class="form-group">
+                <label for="first name" >Username</label>
+                <input type="text" class="form-control" id="exampleInputText" name="username" placeholder="username">
+                <br>
+                <label for="first name" >Password</label>
+                <input type="password" class="form-control" id="exampleInputpassword" name="password" placeholder="password">
+                <br>
+                <input type="submit" class="btn bg-primary text-white col-sm-5"  name="sbtn1" value="login" >
+                <a href="{% url 'signup' %}"><input type="button" class="btn bg-light text-black col-sm-5 border-dark"   value="sign up" ></a>
+    
+            </div>
+    
+    
+    
+        </form>
+      
+      </div>
+
+
+      
+    </div>
+     </div>
+</div>

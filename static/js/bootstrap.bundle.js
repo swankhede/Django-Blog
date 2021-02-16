@@ -4,7 +4,7 @@
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery')) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, requestuire('jquery')) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery));
 }(this, (function (exports, $) { 'use strict';
@@ -236,7 +236,7 @@
     },
     jQueryDetection: function jQueryDetection() {
       if (typeof $ === 'undefined') {
-        throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
+        throw new TypeError('Bootstrap\'s JavaScript requestuires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
       }
 
       var version = $.fn.jquery.split(' ')[0].split('.');
@@ -247,7 +247,7 @@
       var maxMajor = 4;
 
       if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-        throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
+        throw new Error('Bootstrap\'s JavaScript requestuires at least jQuery v1.9.1 but less than v4.0.0');
       }
     }
   };
@@ -2950,26 +2950,26 @@
    * @method
    * @memberof Popper.Utils
    * @param {Array} modifiers - list of modifiers
-   * @param {String} requestingName - name of requesting modifier
-   * @param {String} requestedName - name of requested modifier
+   * @param {String} requestuestingName - name of requestuesting modifier
+   * @param {String} requestuestedName - name of requestuested modifier
    * @returns {Boolean}
    */
-  function isModifierRequired(modifiers, requestingName, requestedName) {
-    var requesting = find(modifiers, function (_ref) {
+  function isModifierrequestuired(modifiers, requestuestingName, requestuestedName) {
+    var requestuesting = find(modifiers, function (_ref) {
       var name = _ref.name;
-      return name === requestingName;
+      return name === requestuestingName;
     });
 
-    var isRequired = !!requesting && modifiers.some(function (modifier) {
-      return modifier.name === requestedName && modifier.enabled && modifier.order < requesting.order;
+    var isrequestuired = !!requestuesting && modifiers.some(function (modifier) {
+      return modifier.name === requestuestedName && modifier.enabled && modifier.order < requestuesting.order;
     });
 
-    if (!isRequired) {
-      var _requesting = '`' + requestingName + '`';
-      var requested = '`' + requestedName + '`';
-      console.warn(requested + ' modifier is required by ' + _requesting + ' modifier in order to work, be sure to include it before ' + _requesting + '!');
+    if (!isrequestuired) {
+      var _requestuesting = '`' + requestuestingName + '`';
+      var requestuested = '`' + requestuestedName + '`';
+      console.warn(requestuested + ' modifier is requestuired by ' + _requestuesting + ' modifier in order to work, be sure to include it before ' + _requestuesting + '!');
     }
-    return isRequired;
+    return isrequestuired;
   }
 
   /**
@@ -2983,7 +2983,7 @@
     var _data$offsets$arrow;
 
     // arrow depends on keepTogether in order to work
-    if (!isModifierRequired(data.instance.modifiers, 'arrow', 'keepTogether')) {
+    if (!isModifierrequestuired(data.instance.modifiers, 'arrow', 'keepTogether')) {
       return data;
     }
 
@@ -3192,7 +3192,7 @@
 
       var overflowsBoundaries = placement === 'left' && overflowsLeft || placement === 'right' && overflowsRight || placement === 'top' && overflowsTop || placement === 'bottom' && overflowsBottom;
 
-      // flip the variation if required
+      // flip the variation if requestuired
       var isVertical = ['top', 'bottom'].indexOf(placement) !== -1;
 
       // flips variation if reference element overflows boundaries
@@ -3542,7 +3542,7 @@
    * @returns {Object} The data object, properly modified
    */
   function hide(data) {
-    if (!isModifierRequired(data.instance.modifiers, 'hide', 'preventOverflow')) {
+    if (!isModifierrequestuired(data.instance.modifiers, 'hide', 'preventOverflow')) {
       return data;
     }
 
@@ -3776,7 +3776,7 @@
      * Modifier used to flip the popper's placement when it starts to overlap its
      * reference element.
      *
-     * Requires the `preventOverflow` modifier before it in order to work.
+     * requestuires the `preventOverflow` modifier before it in order to work.
      *
      * **NOTE:** this modifier will interrupt the current update cycle and will
      * restart it if it detects the need to flip the placement.
@@ -3849,7 +3849,7 @@
      * be used to hide with a CSS selector the popper when its reference is
      * out of boundaries.
      *
-     * Requires the `preventOverflow` modifier before it in order to work.
+     * requestuires the `preventOverflow` modifier before it in order to work.
      * @memberof modifiers
      * @inner
      */
@@ -4053,7 +4053,7 @@
       classCallCheck(this, Popper);
 
       this.scheduleUpdate = function () {
-        return requestAnimationFrame(_this.update);
+        return requestuestAnimationFrame(_this.update);
       };
 
       // make update() debounced, so that it only runs at most once-per-tick
@@ -4336,7 +4336,7 @@
          * Popper - https://popper.js.org
          */
         if (typeof Popper === 'undefined') {
-          throw new TypeError('Bootstrap\'s dropdowns require Popper.js (https://popper.js.org/)');
+          throw new TypeError('Bootstrap\'s dropdowns requestuire Popper.js (https://popper.js.org/)');
         }
 
         var referenceElement = this._element;
@@ -5544,7 +5544,7 @@
   function () {
     function Tooltip(element, config) {
       if (typeof Popper === 'undefined') {
-        throw new TypeError('Bootstrap\'s tooltips require Popper.js (https://popper.js.org/)');
+        throw new TypeError('Bootstrap\'s tooltips requestuire Popper.js (https://popper.js.org/)');
       } // private
 
 

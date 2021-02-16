@@ -5245,6 +5245,7 @@ a.badge-dark:focus, a.badge-dark.focus {
   margin-bottom: 2rem;
   background-color: #e9ecef;
   border-radius: 0.3rem;
+  height: 50%;
 }
 
 @media (min-width: 576px) {
@@ -5924,6 +5925,7 @@ a.close.disabled {
   width: auto;
   margin: 0.5rem;
   pointer-events: none;
+  height: 50%
 }
 
 .modal.fade .modal-dialog {

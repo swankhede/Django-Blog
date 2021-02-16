@@ -6,85 +6,88 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom-style/style.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script> 
     <title>Edit</title>
 </head>
 
-<nav class="navbar navbar-expand-sm bg-dark text-capitalize  text-white justify-content-md-center" >
-    <ul class="navbar-nav ">
-        <li class="nav-items">
-            <a class="nav-link text-light" href="#">DBlog</a>
-        </li>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <a class="navbar-brand" href="#">DBlog</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item active">
+              <a class="nav-link" href="{% url 'home'  %}">Home <span class="sr-only">(current)</span></a>
+            </li>
       
-        <li class="nav-items">
-            <a class="nav-link text-light" href="{% url 'home' u %}">home</a>
-        </li>
-        <li class="nav-items">
-            <a class="nav-link text-light" href="{% url 'post_blog' u %}">Post</a>
-        </li>
+            <li class="nav-items ">
+                <a class="nav-link text-light" href="{% url 'post_blog'  %}">Post</a>
+            </li>
+        </ul>
+         
+        <ul class="navbar-nav ml-auto">
+           
+            <li class="nav-items ">
+                <a href="{% url 'logout' %}" class="nav-link text-light" >logout</a>
+            </li>
+            <li class="nav-items">
+                <a class="nav-link text-light" href="#">about</a>
+            </li>
+           
+          </ul>
+        </div>
+      </nav>
+      <br>
+      <br>
       
-        
-        <li class="nav-items ">
-            <a href="{% url 'logout' %}" class="nav-link text-light" >logout</a>
-        </li>
-        <li class="nav-items">
-            <a class="nav-link text-light" href="#">about</a>
-        </li>
-        <li class="nav-items">
-            <a class="nav-link text-light" href="#">contact</a>
-        </li>
-     
- </ul>
-</nav>
 
-<br>
-<br>
 
 <body>
     
-        <div class="container ">
+        <div class="container col-md-7">
             <div class=alert-danger>
                 {{error}}
             </div>
             <div class=alert-success>
                 {{msg}}
             </div>
-            
+       
             <form action="" method="POST" enctype="multipart/form-data">
                 {% csrf_token %} 
                 
-                <div class="card ">
-                    <div class="card-item">
-                    {% for i in b %}
-                    {% if i.pic %}
-                    <img src="{{i.pic.url}}" class="img-fluid" height="500" width="500">
-                   <input type="file" style="width:100%;border:none" class=" " id="exampleInputFile" name="pic" value="{{i.pic.url}}">
-                   {% else %}
-                   <input type="file" style="width:100%;border:none;" class=" " id="exampleInputFile" name="pic" >
+               
+            
+                    {% if post.pic %}
+                    <img src="{{post.pic.url}}" class="img-fluid" width="100%">
+                 
+                   
                    {% endif%}
                     
-                    <input type="text" style="width:100%;border:none;font-size: 80px" class=" " id="exampleInputText" name="title" placeholder="Title" value="{{i.title}}">
+                    <input type="text" style="width:100%;border:none;font-size: 80px ;outline:none;font-weight: bold;" class=" " id="exampleInputText" name="title" placeholder="Title" value="{{post.title}}">
                     <br>
                    
-                    <textarea class=""  style="width:100%;border:none solid;font-size: 30px;" id="exampleInputTextArea" name="content" maxlength="1000"  placeholder="Type Here.." rows="10"
-                    >{{i.content}}</textarea>
+                    <textarea class=""  style="width:100%;border:none;font-size: 30px;outline:none" id="exampleInputTextArea" name="content" maxlength="1000"  placeholder="Type Here.." rows="10"  >{{post.content}}</textarea>
                    <br>
-                   
-                   
-               
+             
+                
+                   <input type="file" style="width:100%;border:none;outline:none" class=" " id="exampleInputFile" name="pic">
+                   <a href="?action=delete"><small>remove image</small></a>
+                   <br>
              
                    <br>
-                    <input type="submit" class="btn btn-primary float-left "  name="Upost" value="POST" >
+                  
+                   <input type="submit" class="btn btn-primary col-md-12 "  name="Upost" value="POST" >
                    
-                </div>
-        
-                {% endfor %}
+                
+   
         
             </form>
     
-        </div>
+        
         </div>
       
 

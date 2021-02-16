@@ -4,7 +4,7 @@
   * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
   */
 (function (global, factory) {
-  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('jquery'), require('popper.js')) :
+  typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, requestuire('jquery'), requestuire('popper.js')) :
   typeof define === 'function' && define.amd ? define(['exports', 'jquery', 'popper.js'], factory) :
   (global = global || self, factory(global.bootstrap = {}, global.jQuery, global.Popper));
 }(this, (function (exports, $, Popper) { 'use strict';
@@ -237,7 +237,7 @@
     },
     jQueryDetection: function jQueryDetection() {
       if (typeof $ === 'undefined') {
-        throw new TypeError('Bootstrap\'s JavaScript requires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
+        throw new TypeError('Bootstrap\'s JavaScript requestuires jQuery. jQuery must be included before Bootstrap\'s JavaScript.');
       }
 
       var version = $.fn.jquery.split(' ')[0].split('.');
@@ -248,7 +248,7 @@
       var maxMajor = 4;
 
       if (version[0] < ltMajor && version[1] < minMinor || version[0] === minMajor && version[1] === minMinor && version[2] < minPatch || version[0] >= maxMajor) {
-        throw new Error('Bootstrap\'s JavaScript requires at least jQuery v1.9.1 but less than v4.0.0');
+        throw new Error('Bootstrap\'s JavaScript requestuires at least jQuery v1.9.1 but less than v4.0.0');
       }
     }
   };
@@ -1723,7 +1723,7 @@
          * Popper - https://popper.js.org
          */
         if (typeof Popper === 'undefined') {
-          throw new TypeError('Bootstrap\'s dropdowns require Popper.js (https://popper.js.org/)');
+          throw new TypeError('Bootstrap\'s dropdowns requestuire Popper.js (https://popper.js.org/)');
         }
 
         var referenceElement = this._element;
@@ -2931,7 +2931,7 @@
   function () {
     function Tooltip(element, config) {
       if (typeof Popper === 'undefined') {
-        throw new TypeError('Bootstrap\'s tooltips require Popper.js (https://popper.js.org/)');
+        throw new TypeError('Bootstrap\'s tooltips requestuire Popper.js (https://popper.js.org/)');
       } // private
 
 

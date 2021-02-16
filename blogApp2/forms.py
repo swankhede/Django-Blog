@@ -16,6 +16,7 @@ class saveblog(forms.ModelForm):
     class Meta:
         model = blogpost
         fields = ('title','content','pic')
+
 class updateblog(forms.ModelForm):
     class Meta:
         model = blogpost
