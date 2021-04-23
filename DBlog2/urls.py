@@ -20,20 +20,20 @@ from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
-     path('admin/', admin.site.urls),
-    path('',views.index,name='index'),
-     path('login',views.login_view,name='login'),
-      path('signup',views.signup,name='signup'),
-       path('logout',views.logout_view,name='logout'),
-       path('post_blog/',views.post_blog,name='post_blog'),
-       path('home/',views.home,name='home'),
-       path('home/view_blog/<title>/<author>',views.view_blog,name='view_blog'),
-       path('profile/',views.profile_view,name='profile'),
-        path('profile/delete/<t>/',views.delete_blog,name='delete'),
-      
-        path('profile/edit/<pk>/',views.edit_blog,name='edit'),
-         path('accounts/',views.edit_accounts,name='accounts'),
-         path('user_accounts/<author>/',views.accounts,name='user_accounts')
-      
+    path('admin/', admin.site.urls),
+    path('', views.index, name='index'),
+    path('login', views.login_view, name='login'),
+    path('signup', views.signup, name='signup'),
+    path('logout', views.logout_view, name='logout'),
+    path('post_blog/', views.post_blog, name='post_blog'),
+    path('home/', views.home, name='home'),
+    path('home/view_blog/<title>/<author>', views.view_blog, name='view_blog'),
+    path('profile/', views.profile_view, name='profile'),
+    path('profile/delete/<pk>/', views.delete_blog, name='delete'),
 
-]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    path('profile/edit/<pk>/', views.edit_blog, name='edit'),
+    path('accounts/', views.edit_accounts, name='accounts'),
+    path('user_accounts/<author>/', views.accounts, name='user_accounts')
+
+
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
