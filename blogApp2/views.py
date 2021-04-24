@@ -275,9 +275,9 @@ def accounts(request, author):
     post = blogpost.objects.filter(author=author).order_by("time").reverse()
     profile_obj = profile.objects.get(username=author)
     print(request.user)
-    print(author)
+    print(author_obj.first_name)
     print(author == request.user)
-    if author == str(request.user):
+    if author == request.user.username:
         return redirect(reverse('profile'))
     else:
-        return render(request, 'user_profile.html', {'posts': post, 'profile': profile_obj})
+        return render(request, 'user_profile.html', {'posts': post, 'profile': profile_obj, 'author': author_obj})
