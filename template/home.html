@@ -32,6 +32,20 @@
           </ul>
              
             <ul class="navbar-nav ml-auto">
+              <form action="" method="post">
+                {%  csrf_token %}
+                <div class="input-group d-flex ">
+    
+                    <input type="search" class="form-control  border-0 "  placeholder="Search.." name="search"/>
+              
+               
+                  <div class="input-group-append">
+                  <button type="submit" class="btn bg-light">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
+                </div>
+              </form>
               
                 <li class="nav-items ">
                     <a class="nav-link text-light" href="{% url 'profile'  %}">{{request.user|title}}</a>
@@ -98,7 +112,8 @@
         {% endfor %}
         
 
-     
+        <script src="https://kit.fontawesome.com/cce32a89d0.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/cce32a89d0.js" crossorigin="anonymous"></script>
     
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
