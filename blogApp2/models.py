@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 
+# add image compression
+
 
 class profile(models.Model):
     pic = models.ImageField(

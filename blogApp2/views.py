@@ -142,18 +142,21 @@ def profile_view(request, msg=None):
         return HttpResponse("<h1>User Not Found</h1>")
 
 
+def remove_image(image_name):
+    try:
+
+        os.remove(image_name)
+        return True
+    except FileExistsError as e:
+        print(e)
+
+
 def delete_blog(request, pk):
     if request.user.is_authenticated:
         post = blogpost.get_blog_post(pk)
         user = profile.objects.filter(username=request.user)
         if post.pic:
-            try:
-                base_path = settings.BASE_DIR
-                file_path = os.path.join(base_path, "media/"+str(post.pic))
-                print(file_path)
-                os.remove(file_path)
-            except FileExistsError as e:
-                print(e)
+            remove_image(post.pic.file.name)
 
         blogpost.objects.filter(pk=pk).delete()
         return redirect(reverse('profile'))
@@ -183,48 +186,11 @@ def edit_blog(request, pk):
 
         if request.GET.get('action'):
             print('here..')
+            remove_image(post.pic)
             post.pic.delete()
 
             return render(request, 'edit.html', {'post': post, 'msg': "post has been updated"})
         return render(request, 'edit.html', {'post': post})
-    else:
-        return HttpResponse("<h1>User Not Found</h1>")
-
-
-@login_required
-def editor_blog(request, pk):
-    if request.user.is_authenticated:
-        post = blogpost.objects.filter(pk=pk)
-
-        p = post.values('pic')
-        for i in p:
-            image = i['pic']
-
-        if request.method == 'POST':
-            form2 = updateblog(request.POST, request.FILES)
-
-            print(form2)
-            print(form2.is_valid())
-            print(form2.errors)
-            if form2.is_valid():
-                path = request.FILES.get('pic', False)
-
-                if path == False:
-
-                    blogpost.objects.filter(title=t).update(
-                        title=request.POST['title'], content=request.POST['content'], pic=image, tags=request.POST['tags'])
-
-                else:
-
-                    post.delete()
-
-                    post_blog(request, u)
-
-                return render(request, 'edit.html', {'u': u, 'b': post, 'msg': "post has been updated"})
-            else:
-                return render(request, 'edit.html', {'u': u, 'b': post})
-
-        return render(request, 'edit.html', {'u': u, 'b': post})
     else:
         return HttpResponse("<h1>User Not Found</h1>")
 
@@ -261,6 +227,9 @@ def edit_accounts(request):
                 i.save()
 
             if request.FILES:
+                if profile_obj.pic:
+                    print("file name", profile_obj.pic.file.name)
+                    remove_image(profile_obj.pic.file.name)
                 profile_obj.pic = request.FILES.get('pic')
                 profile_obj.save()
 
